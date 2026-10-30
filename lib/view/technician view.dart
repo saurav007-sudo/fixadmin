@@ -157,16 +157,6 @@ class Technicians extends StatelessWidget {
                                             color: Colors.black87,
                                           ),
                                         ),
-                                        SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Icon(Icons.star, color: Colors.amber, size: 16),
-                                            SizedBox(width: 4),
-                                            Text("4.9", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                                            SizedBox(width: 4),
-                                            Text("(320)", style: TextStyle(color: Colors.grey, fontSize: 13)),
-                                          ],
-                                        ),
                                         SizedBox(height: 8),
                                         Container(
                                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),

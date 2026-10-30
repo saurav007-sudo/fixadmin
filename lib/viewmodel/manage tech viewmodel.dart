@@ -29,8 +29,16 @@ class ManageTechnicianViewModel extends ChangeNotifier {
       notifyListeners();
 
       if (!context.mounted) return;
+
+      // Dynamic message based on verification state
+      String message = isVerified ? "Profile approved" : "Profile rejected";
+      Color bgColor = isVerified ? Colors.green : Colors.red;
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Technician profile marked as $status")),
+        SnackBar(
+          content: Text(message),
+          backgroundColor: bgColor,
+        ),
       );
     } catch (e) {
       isLoading = false;
@@ -38,7 +46,10 @@ class ManageTechnicianViewModel extends ChangeNotifier {
 
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error updating status: $e")),
+        SnackBar(
+          content: Text("Failed to update status: $e"),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }

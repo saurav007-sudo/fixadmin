@@ -18,29 +18,30 @@ class ManageTechnicianPage extends StatelessWidget {
     return Consumer<ManageTechnicianViewModel>(
       builder: (context, provider, child) {
         return Scaffold(
-          backgroundColor: Color(0xFFF4F6FA),
+          backgroundColor: const Color(0xFFEFF9FF),
           body: SafeArea(
             child: StreamBuilder<DocumentSnapshot>(
               stream: provider.getTechnicianStream(docId),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 var data = snapshot.data?.data() as Map<String, dynamic>? ?? {};
                 ManageTechnicianModel tech = ManageTechnicianModel.fromMap(data);
 
                 return ListView(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(16),
                   children: [
+                    // App Bar Row
                     Row(
                       children: [
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
-                          child: Icon(CupertinoIcons.arrow_left, size: 22),
+                          child: const Icon(CupertinoIcons.arrow_left, size: 24, color: Colors.black),
                         ),
-                        SizedBox(width: 15),
-                        Text(
+                        const SizedBox(width: 15),
+                        const Text(
                           "Manage Technician",
                           style: TextStyle(
                             color: Colors.black,
@@ -50,8 +51,8 @@ class ManageTechnicianPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       "Technician Profile",
                       style: TextStyle(
                         fontSize: 15,
@@ -59,28 +60,34 @@ class ManageTechnicianPage extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 32,
-                              backgroundImage: AssetImage("lib/image/profile3.jpg"),
-                            ),
-                            SizedBox(width: 12),
-                            Column(
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 32,
+                            backgroundColor: Colors.blueAccent,
+                            child: Icon(CupertinoIcons.person, color: Colors.white, size: 30),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   tech.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(height: 2),
+                                const SizedBox(height: 4),
                                 Text(
                                   tech.category,
                                   style: TextStyle(
@@ -89,143 +96,109 @@ class ManageTechnicianPage extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                SizedBox(height: 4),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: tech.status == "Approved" ? Colors.green.shade50 : Colors.orange.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        tech.status,
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                          color: tech.status == "Approved" ? Colors.green[800] : Colors.orange[800],
-                                        ),
-                                      ),
+                                const SizedBox(height: 6),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: tech.status == "Approved" ? Colors.green.shade50 : Colors.orange.shade50,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    tech.status,
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                      color: tech.status == "Approved" ? Colors.green[800] : Colors.orange[800],
                                     ),
-                                    SizedBox(width: 6),
-                                    Icon(CupertinoIcons.star_fill, color: Colors.amber, size: 13),
-                                    SizedBox(width: 2),
-                                    Text(
-                                      "4.9",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    Text(
-                                      " (42 Jobs)",
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey[600],
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       "Government ID Verification",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("ID Type: ${tech.idType}", style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 4),
-                          Text("ID Number: ${tech.idNumber}", style: TextStyle(color: Colors.black87)),
-                          SizedBox(height: 10),
-                          Text("Uploaded Photos:", style: TextStyle(fontSize: 12, color: Colors.grey)),
-                          SizedBox(height: 8),
-                          Row(
-                            children: [
-                              tech.frontImg.isNotEmpty
-                                  ? Image.network(tech.frontImg, height: 70, width: 100, fit: BoxFit.cover)
-                                  : Container(
-                                height: 70,
-                                width: 100,
-                                color: Colors.grey.shade200,
-                                child: Center(child: Text("No Front ID", style: TextStyle(fontSize: 10))),
-                              ),
-                              SizedBox(width: 10),
-                              tech.backImg.isNotEmpty
-                                  ? Image.network(tech.backImg, height: 70, width: 100, fit: BoxFit.cover)
-                                  : Container(
-                                height: 70,
-                                width: 100,
-                                color: Colors.grey.shade200,
-                                child: Center(child: Text("No Back ID", style: TextStyle(fontSize: 10))),
-                              ),
-                            ],
+                          tech.frontImg.isNotEmpty
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(tech.frontImg, height: 70, width: 100, fit: BoxFit.cover),
                           )
+                              : Container(
+                            height: 70,
+                            width: 100,
+                            color: Colors.grey.shade200,
+                          ),
+                          tech.backImg.isNotEmpty
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(tech.backImg, height: 70, width: 100, fit: BoxFit.cover),
+                          )
+                              : Container(
+                            height: 70,
+                            width: 100,
+                            color: Colors.grey.shade200,
+                          ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       "Experience & Certificates",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Column(
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Years of Experience: ${tech.yearsExp}", style: TextStyle(fontWeight: FontWeight.bold)),
-                          SizedBox(height: 4),
-                          Text("Qualification: ${tech.qualification}", style: TextStyle(color: Colors.black87)),
-                          SizedBox(height: 4),
-                          Text("Description: ${tech.workDesc}", style: TextStyle(color: Colors.black54, fontSize: 13)),
+                          Text("No additional certificates provided.", style: TextStyle(color: Colors.grey, fontSize: 13)),
                         ],
                       ),
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 30),
                     provider.isLoading
-                        ? Center(child: CircularProgressIndicator())
+                        ? const Center(child: CircularProgressIndicator())
                         : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green,
-                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                            foregroundColor: Colors.white,
                           ),
                           onPressed: () => provider.updateVerificationStatus(context, partnerId, "Approved", true, data),
-                          child: Text("Approve Profile", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: const Text("Approve"),
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
-                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                            foregroundColor: Colors.white,
                           ),
                           onPressed: () => provider.updateVerificationStatus(context, partnerId, "Rejected", false, data),
-                          child: Text("Reject", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                          child: const Text("Reject"),
                         ),
                       ],
                     ),
-                    SizedBox(height: 25),
                   ],
                 );
               },
